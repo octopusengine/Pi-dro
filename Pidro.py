@@ -5,7 +5,7 @@ import pygame
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)
-interval = 0.1
+interval = 0.2  # 0.1 ok
 regularUpdate = True
 
 # Set which GPIO pins the drive outputs are connected
@@ -41,7 +41,7 @@ moveRight = False
 moveQuit = False
 
 pygame.init()
-screen = pygame.display.set_mode([200,200])
+screen = pygame.display.set_mode([320,240]) # TFT display - the same size 
 pygame.display.set_caption("custompidro - Press [ESC] to quit")
 
 # Function to handle pygame events
@@ -56,12 +56,10 @@ def PygameHandler(events):
 
 	# Handle each event individually
     for event in events:
-	if event.type == pygame.QUIT:
-	    # User exit
+	if event.type == pygame.QUIT: 		# User exit
 	    hadEvent = True
 	    moveQuit = True
-	elif event.type == pygame.KEYDOWN:
-	    # A key has been pressed, see if it is one we want
+	elif event.type == pygame.KEYDOWN:	 # A key has been pressed, see if it is one we want
 	    hadEvent = True
 	    if event.key == pygame.K_UP:
 	        moveUp = True
@@ -73,8 +71,7 @@ def PygameHandler(events):
  	        moveRight = True
 	    elif event.key == pygame.K_ESCAPE:
 	        moveQuit = True
-	elif event.type == pygame.KEYUP:
-	    # A key has been released, see if it is one we want
+	elif event.type == pygame.KEYUP:	 # A key has been released, see if it is one we want
 	    hadEvent = True
 	    if event.key == pygame.K_UP:
 	        moveUp = False
@@ -133,6 +130,7 @@ def off():
 	(GPIO.output(PWMB, GPIO.LOW))
 
 
+# ===================================================================
 try:
     print 'Press [ESC] to quit'
     # Loop indefinitely
@@ -157,7 +155,8 @@ try:
 	        off()
 
 	time.sleep(interval)
+	
 # Send the drive commands
 except KeyboardInterrupt:
-    print "(exit goodbye ciao)"
+    print "(END)"
     GPIO.cleanup()
